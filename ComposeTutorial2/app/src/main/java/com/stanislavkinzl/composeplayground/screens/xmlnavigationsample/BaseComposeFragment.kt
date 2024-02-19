@@ -1,4 +1,4 @@
-package com.stanislavkinzl.composeplayground.base
+package com.stanislavkinzl.composeplayground.screens.xmlnavigationsample
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,19 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import com.stanislavkinzl.composeplayground.R
 
+/**
+ * Usage:
+ * class ScrollingFragment : BaseComposeFragment() {
+ *     override fun onShouldInflateComposeView(composeView: ComposeView) {
+ *         composeView.setContent {
+ *             ComposePlaygroundTheme {
+ *                 ScrollingScreen()
+ *             }
+ *         }
+ *     }
+ * }
+ *
+ * */
 open class BaseComposeFragment : Fragment() {
 
     open fun onShouldInflateComposeView(composeView: ComposeView) {}

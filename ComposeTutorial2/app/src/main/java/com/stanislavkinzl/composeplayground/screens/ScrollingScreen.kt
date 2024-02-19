@@ -1,15 +1,12 @@
-package com.stanislavkinzl.composeplayground.fragments
+package com.stanislavkinzl.composeplayground.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
@@ -17,7 +14,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -26,29 +22,18 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.stanislavkinzl.composeplayground.Global
-import com.stanislavkinzl.composeplayground.SpacerVertical
-import com.stanislavkinzl.composeplayground.base.BaseComposeFragment
 import com.stanislavkinzl.composeplayground.log
+import com.stanislavkinzl.composeplayground.ui.DefaultScrollableColumn
+import com.stanislavkinzl.composeplayground.ui.DefaultSurface
+import com.stanislavkinzl.composeplayground.ui.SpacerVertical
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 import kotlinx.coroutines.launch
-
-class ScrollingFragment : BaseComposeFragment() {
-    override fun onShouldInflateComposeView(composeView: ComposeView) {
-        composeView.setContent {
-            ComposePlaygroundTheme {
-                ScrollingScreen()
-            }
-        }
-    }
-}
 
 const val DEFAULT_ANIMATED_SCROLL_DP = 100
 const val DEFAULT_ANIMATED_SCROLL_INCREMENT_DP = 100
@@ -63,14 +48,8 @@ fun ScrollingScreen() {
     var smoothScrollValue by remember { mutableIntStateOf(100) }
     var counter by remember { mutableIntStateOf(0) }
 
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-        Column(
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .verticalScroll(scrollState)
-                .padding(16.dp) // matters to be last for overscroll effect be outside of padding range
-        ) {
+    DefaultSurface {
+        DefaultScrollableColumn(scrollState = scrollState) {
             Text("Smooth Scroll value: $smoothScrollValue", fontSize = 12.sp)
 
             SpacerVertical(space = Global.mediumGap)
@@ -118,6 +97,7 @@ fun ScrollingScreen() {
 
             Row {
                 Text("Enter scroll to child (up to 200):", fontSize = 12.sp)
+                // TODO: add functionality
             }
 
             SpacerVertical(space = Global.mediumGap)
@@ -141,7 +121,7 @@ fun ScrollingScreen() {
 
 @Preview
 @Composable
-fun AppScreenPreview() {
+fun ScrollingScreenPreview() {
     ComposePlaygroundTheme {
         ScrollingScreen()
     }

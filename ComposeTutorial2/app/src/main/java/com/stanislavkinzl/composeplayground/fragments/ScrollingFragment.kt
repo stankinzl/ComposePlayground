@@ -1,4 +1,4 @@
-package com.stanislavkinzl.composetutorial2.fragments
+package com.stanislavkinzl.composeplayground.fragments
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,20 +30,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.stanislavkinzl.composetutorial2.Global
-import com.stanislavkinzl.composetutorial2.SpacerVertical
-import com.stanislavkinzl.composetutorial2.base.BaseComposeFragment
-import com.stanislavkinzl.composetutorial2.log
-import com.stanislavkinzl.composetutorial2.ui.theme.ComposeTutorial2Theme
+import com.stanislavkinzl.composeplayground.Global
+import com.stanislavkinzl.composeplayground.SpacerVertical
+import com.stanislavkinzl.composeplayground.base.BaseComposeFragment
+import com.stanislavkinzl.composeplayground.log
+import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 import kotlinx.coroutines.launch
 
 class ScrollingFragment : BaseComposeFragment() {
     override fun onShouldInflateComposeView(composeView: ComposeView) {
         composeView.setContent {
-            ComposeTutorial2Theme {
+            ComposePlaygroundTheme {
                 ScrollingScreen()
             }
         }
@@ -52,6 +52,8 @@ class ScrollingFragment : BaseComposeFragment() {
 
 const val DEFAULT_ANIMATED_SCROLL_DP = 100
 const val DEFAULT_ANIMATED_SCROLL_INCREMENT_DP = 100
+
+// TODO: Add scroll to child.
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -137,10 +139,10 @@ fun ScrollingScreen() {
     }
 }
 
-@PreviewLightDark
+@Preview
 @Composable
 fun AppScreenPreview() {
-    ComposeTutorial2Theme {
+    ComposePlaygroundTheme {
         ScrollingScreen()
     }
 }

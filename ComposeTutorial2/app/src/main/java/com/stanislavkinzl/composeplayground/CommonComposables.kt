@@ -1,4 +1,4 @@
-package com.stanislavkinzl.composetutorial2
+package com.stanislavkinzl.composeplayground
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

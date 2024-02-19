@@ -1,4 +1,4 @@
-package com.stanislavkinzl.composetutorial2.fragments
+package com.stanislavkinzl.composeplayground.fragments
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,13 +18,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.stanislavkinzl.composetutorial2.base.BaseComposeFragment
-import com.stanislavkinzl.composetutorial2.ui.theme.ComposeTutorial2Theme
+import com.stanislavkinzl.composeplayground.base.BaseComposeFragment
+import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 
 class RouterFragment : BaseComposeFragment() {
     override fun onShouldInflateComposeView(composeView: ComposeView) {
         composeView.setContent {
-            ComposeTutorial2Theme {
+            ComposePlaygroundTheme {
                 RouterScreen(findNavController())
             }
         }
@@ -54,7 +54,7 @@ fun RouterScreen(navController: NavController? = null) {
 @Preview
 @Composable
 fun RouterScreenPreview() {
-    ComposeTutorial2Theme {
+    ComposePlaygroundTheme {
         RouterScreen()
     }
 }

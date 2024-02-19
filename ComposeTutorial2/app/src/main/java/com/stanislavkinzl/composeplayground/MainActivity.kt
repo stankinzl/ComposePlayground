@@ -1,4 +1,4 @@
-package com.stanislavkinzl.composetutorial2
+package com.stanislavkinzl.composeplayground
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity

@@ -1,4 +1,4 @@
-package com.stanislavkinzl.composetutorial2.ui.theme
+package com.stanislavkinzl.composeplayground.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

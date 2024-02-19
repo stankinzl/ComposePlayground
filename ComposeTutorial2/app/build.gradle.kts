@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.stanislavkinzl.composetutorial2"
+    namespace = "com.stanislavkinzl.composeplayground"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.stanislavkinzl.composetutorial2"
+        applicationId = "com.stanislavkinzl.composeplayground"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

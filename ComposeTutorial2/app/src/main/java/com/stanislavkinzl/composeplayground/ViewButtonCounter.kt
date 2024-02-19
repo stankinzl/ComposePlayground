@@ -1,4 +1,4 @@
-package com.stanislavkinzl.composetutorial2
+package com.stanislavkinzl.composeplayground
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedButton
@@ -12,7 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import com.stanislavkinzl.composetutorial2.ui.theme.ComposeTutorial2Theme
+import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 
 @Composable
 fun ButtonCounter() {
@@ -29,7 +29,7 @@ fun ButtonCounter() {
 @PreviewLightDark
 @Composable
 fun ButtonCounterPreview() {
-    ComposeTutorial2Theme {
+    ComposePlaygroundTheme {
         ButtonCounter()
     }
 }

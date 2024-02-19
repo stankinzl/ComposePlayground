@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    app:startDestination="@id/routerFragment">
+
+    <fragment
+        android:id="@+id/scrollingFragment"
+        android:name="com.stanislavkinzl.composetutorial2.fragments.ScrollingFragment"
+        android:label="ScrollingFragment"
+        tools:layout="@layout/fragment_compose_container" />
+    <fragment
+        android:id="@+id/routerFragment"
+        android:name="com.stanislavkinzl.composetutorial2.fragments.RouterFragment"
+        android:label="RouterFragment" >
+        <action
+            android:id="@+id/action_routerFragment_to_scrollingFragment"
+            app:destination="@id/scrollingFragment" />
+    </fragment>
+</navigation>

@@ -3,23 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_home"
-    app:startDestination="@id/routerFragment">
+    app:startDestination="@id/passArgumentsFragment">
 
     <fragment
-        android:id="@+id/scrollingFragment"
-        android:name="com.stanislavkinzl.composeplayground.fragments.ScrollingFragment"
-        android:label="ScrollingFragment"
+        android:id="@+id/passArgumentsFragment"
+        android:name="com.stanislavkinzl.composeplayground.screens.xmlnavigationsample.PassArgumentsFragment"
+        android:label="PassArgumentsFragment"
         tools:layout="@layout/fragment_compose_container" />
-    <fragment
-        android:id="@+id/routerFragment"
-        android:name="com.stanislavkinzl.composeplayground.fragments.RouterFragment"
-        android:label="RouterFragment">
-        <action
-            android:id="@+id/action_routerFragment_to_scrollingFragment"
-            app:destination="@id/scrollingFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
+
 </navigation>

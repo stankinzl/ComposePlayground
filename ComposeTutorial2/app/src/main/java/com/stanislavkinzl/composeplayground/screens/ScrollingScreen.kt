@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ramcosta.composedestinations.annotation.Destination
 import com.stanislavkinzl.composeplayground.Global
 import com.stanislavkinzl.composeplayground.log
 import com.stanislavkinzl.composeplayground.ui.DefaultScrollableColumn
@@ -40,6 +41,7 @@ const val DEFAULT_ANIMATED_SCROLL_INCREMENT_DP = 100
 
 // TODO: Add scroll to child.
 
+@Destination
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ScrollingScreen() {

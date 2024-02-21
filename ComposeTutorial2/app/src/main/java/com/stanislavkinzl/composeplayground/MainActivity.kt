@@ -1,30 +1,55 @@
 package com.stanislavkinzl.composeplayground
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import com.stanislavkinzl.composeplayground.Global.smallGap
-import com.stanislavkinzl.composeplayground.screens.xmlnavigationsample.XmlNavigationComponentActivity
-import com.stanislavkinzl.composeplayground.ui.DefaultSurface
-import com.stanislavkinzl.composeplayground.ui.DefaultScrollableColumn
-import com.stanislavkinzl.composeplayground.ui.SpacerVertical
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.ui.Alignment
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.animations.defaults.NestedNavGraphDefaultAnimations
+import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations
+import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
+import com.stanislavkinzl.composeplayground.screens.NavGraphs
+import com.stanislavkinzl.composeplayground.screens.RouterScreen
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
-import com.stanislavkinzl.composeplayground.ui.theme.DarkGreen
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val rootDefaultAnimations by lazy {
+            RootNavGraphDefaultAnimations(
+                enterTransition = { slideInHorizontally(initialOffsetX = { it }).plus(fadeIn()) },
+                exitTransition = { slideOutHorizontally(targetOffsetX = { -it }).plus(fadeOut()) },
+                popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }).plus(fadeIn()) },
+                popExitTransition = { slideOutHorizontally(targetOffsetX = { it }).plus(fadeOut()) }
+            )
+        }
         setContent {
             ComposePlaygroundTheme {
-                RouterScreen()
+                val navController = rememberNavController()
+                val navHostEngine = rememberAnimatedNavHostEngine(
+                    navHostContentAlignment = Alignment.TopCenter,
+                    rootDefaultAnimations = rootDefaultAnimations,
+                    defaultAnimationsForNestedNavGraph = mapOf(
+                        NavGraphs.root to NestedNavGraphDefaultAnimations(
+                            enterTransition = { slideInHorizontally() },
+                            exitTransition = { slideOutHorizontally() }
+                        ),
+                    ))
+                DestinationsNavHost(
+                    navGraph = NavGraphs.root,
+                    navController = navController,
+                    engine = navHostEngine
+                )
+//                DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
     }

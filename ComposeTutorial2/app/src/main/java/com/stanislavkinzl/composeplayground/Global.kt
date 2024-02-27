@@ -1,6 +1,8 @@
 package com.stanislavkinzl.composeplayground
 
+import androidx.compose.ui.unit.dp
+
 object Global {
-    const val mediumGap = 16
-    const val smallGap = 8
+    val mediumGap = 16.dp
+    val smallGap = 8.dp
 }

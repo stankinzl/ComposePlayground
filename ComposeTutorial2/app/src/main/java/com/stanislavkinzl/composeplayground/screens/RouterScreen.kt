@@ -34,7 +34,7 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
             }) { Text("Scrolling screen") }
 
             // XML navigation sample
-            SpacerVertical(space = Global.smallGap)
+            SpacerVertical(height = Global.smallGap)
             Button(colors = ButtonDefaults.buttonColors(containerColor = DarkGreen), onClick = {
                 context.getActivity()?.startActivity(Intent(context, XmlNavigationComponentActivity::class.java))
                     ?: run { context.toast("Error: cannot get activity from context") /* Shouldn't happen */ }

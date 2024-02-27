@@ -54,7 +54,7 @@ fun ScrollingScreen() {
         DefaultScrollableColumn(scrollState = scrollState) {
             Text("Smooth Scroll value: $smoothScrollValue", fontSize = 12.sp)
 
-            SpacerVertical(space = Global.mediumGap)
+            SpacerVertical(height = Global.mediumGap)
 
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -95,14 +95,14 @@ fun ScrollingScreen() {
                 }
             }
 
-            SpacerVertical(space = Global.mediumGap)
+            SpacerVertical(height = Global.mediumGap)
 
             Row {
                 Text("Enter scroll to child (up to 200):", fontSize = 12.sp)
                 // TODO: add functionality
             }
 
-            SpacerVertical(space = Global.mediumGap)
+            SpacerVertical(height = Global.mediumGap)
 
             SideEffect {
                 log("Button counter is $counter")
@@ -112,7 +112,7 @@ fun ScrollingScreen() {
                 Text("Increment")
             }
 
-            SpacerVertical(space = Global.mediumGap)
+            SpacerVertical(height = Global.mediumGap)
 
             (0..200).forEach {
                 Text("Line $it")

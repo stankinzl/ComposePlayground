@@ -6,8 +6,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
@@ -19,9 +25,12 @@ import androidx.compose.foundation.text2.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,6 +46,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,8 +54,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import com.stanislavkinzl.composeplayground.Global.mediumGap
 import com.stanislavkinzl.composeplayground.Global.smallGap
+import com.stanislavkinzl.composeplayground.getActivity
 import com.stanislavkinzl.composeplayground.ui.DefaultScrollableColumn
 import com.stanislavkinzl.composeplayground.ui.DefaultSurface
 import com.stanislavkinzl.composeplayground.ui.SpacerVertical
@@ -102,7 +114,7 @@ fun NavigationSamplePassArgumentsScreen() {
                     fontSize = 12.sp
                 )
             }
-            SpacerVertical(space = smallGap)
+            SpacerVertical(height = smallGap)
 
             OutlinedTextField(
                 value = catNameInput,
@@ -124,7 +136,7 @@ fun NavigationSamplePassArgumentsScreen() {
                     focusManager.clearFocus() // Not needed, seems this is native behaviour, but keeping it here for documentation.
                 })
             )
-            SpacerVertical(space = smallGap)
+            SpacerVertical(height = smallGap)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(text = "Cat password (numeric):")
                 Text(
@@ -134,7 +146,7 @@ fun NavigationSamplePassArgumentsScreen() {
                     fontSize = 12.sp
                 )
             }
-            SpacerVertical(space = mediumGap)
+            SpacerVertical(height = mediumGap)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
@@ -197,14 +209,36 @@ fun NavigationSamplePassArgumentsScreen() {
                 Text("Scrolling Pojo $it")
             }
 
-            LaunchedEffect(Unit) {
-                if (!hasAutoOpenedIme) {
-                    awaitFrame() // TODO() Figure out why I need delay
-                    catNameFieldFocusRequester.requestFocus()
-                    keyboardController?.show()
-                    hasAutoOpenedIme = true
-                }
+            // Bottom padding because of the button
+            SpacerVertical(height = 80.dp)
+        }
+    }
+
+    Box(contentAlignment = Alignment.BottomStart, modifier = Modifier
+        .fillMaxSize()
+        .safeContentPadding()
+        .imePadding()
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            HorizontalDivider()
+            ElevatedButton(modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(), onClick = { /*TODO*/ }) {
+                Text("Continue")
             }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (!hasAutoOpenedIme) {
+            awaitFrame() // TODO() Figure out why I need delay
+            catNameFieldFocusRequester.requestFocus()
+            keyboardController?.show()
+            hasAutoOpenedIme = true
         }
     }
 }

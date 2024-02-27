@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -15,21 +18,27 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun SpacerVertical(space: Int) {
-    Spacer(modifier = Modifier.height(space.dp))
+fun SpacerVertical(height: Dp) {
+    Spacer(modifier = Modifier.height(height))
 }
 
 @Composable
-fun SpacerHorizontal(space: Int) {
-    Spacer(modifier = Modifier.width(space.dp))
+fun SpacerHorizontal(width: Dp) {
+    Spacer(modifier = Modifier.width(width))
 }
 
 @Composable
 fun DefaultSurface(content: @Composable () -> Unit) {
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background, content = content)
+    Surface(
+        modifier = Modifier.fillMaxSize()
+            .safeContentPadding(),
+        color = MaterialTheme.colorScheme.background,
+        content = content
+    )
 }
 
 @Composable

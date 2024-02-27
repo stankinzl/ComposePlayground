@@ -28,14 +28,24 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
     val context = LocalContext.current
     DefaultSurface {
         DefaultScrollableColumn(scrollState = scrollState) {
+            // Screen where I test scrolling
             Button({
                 navigator?.navigate(ScrollingScreenDestination)
             }) { Text("Scrolling screen") }
+
+            // XML navigation sample
             SpacerVertical(space = Global.smallGap)
             Button(colors = ButtonDefaults.buttonColors(containerColor = DarkGreen), onClick = {
                 context.getActivity()?.startActivity(Intent(context, XmlNavigationComponentActivity::class.java))
                     ?: run { context.toast("Error: cannot get activity from context") /* Shouldn't happen */ }
             }) { Text("XML Navigation Component w Compose sample") }
+
+            // Native Compose navigation sample
+            // TODO
+
+            // ConstraintLayout in compose playground
+            // TODO
+
         }
     }
 }

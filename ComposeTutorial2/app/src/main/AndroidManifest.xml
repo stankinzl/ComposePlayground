@@ -15,7 +15,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.ComposePlayground" >
+            android:theme="@style/Theme.ComposePlayground">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,8 @@
 
         <activity
             android:name=".screens.xmlnavigationsample.XmlNavigationComponentActivity"
-            android:theme="@style/Theme.ComposePlayground" />
+            android:theme="@style/Theme.ComposePlayground"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

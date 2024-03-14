@@ -20,12 +20,16 @@ import com.ramcosta.composedestinations.animations.rememberAnimatedNavHostEngine
 import com.stanislavkinzl.composeplayground.screens.NavGraphs
 import com.stanislavkinzl.composeplayground.screens.RouterScreen
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Enables the use of imePadding() modifier
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        // region Animations setup for Destinations navigation
         val rootDefaultAnimations by lazy {
             RootNavGraphDefaultAnimations(
                 enterTransition = { slideInHorizontally(initialOffsetX = { it }).plus(fadeIn()) },
@@ -51,8 +55,8 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     engine = navHostEngine
                 )
-//                DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
+        // endregion
     }
 }

@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.stanislavkinzl.composeplayground.ui.theme
 
 import androidx.compose.ui.graphics.Color
@@ -14,3 +16,6 @@ val DarkGreen = Color(0xFF0D6623)
 
 val BackgroundDark = Color(0xFF1B1C1F)
 val BackgroundLight = Color(0xFFE9D5E5)
+
+val Gainsboro = Color(color = 0xFFF0F0F0)
+val Nobel = Color(color = 0xFF979797)

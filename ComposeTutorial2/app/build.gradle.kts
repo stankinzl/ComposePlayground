@@ -4,6 +4,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -52,6 +53,9 @@ android {
 
 dependencies {
     val destinationsVersion = "1.10.1"
+    val hiltVersion = "2.50"
+    val koinVersion = "3.5.3"
+    val lifecycleVersion = "2.7.0"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
@@ -63,6 +67,10 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
+
     // For xml navigation
     implementation("androidx.fragment:fragment-ktx:1.6.2")
 
@@ -72,6 +80,23 @@ dependencies {
     implementation("io.github.raamcosta.compose-destinations:animations-core:$destinationsVersion") // Destinations navigation
     ksp("io.github.raamcosta.compose-destinations:ksp:$destinationsVersion") // Destinations navigation
 
+    // Image loading library backed by kotlin coroutines
+    implementation("io.coil-kt:coil-compose:2.6.0") // https://coil-kt.github.io/coil/compose/
+
+    // Dagger-Hilt vs Koin:
+    // https://medium.com/@aruncse2k20/dagger-hilt-vs-koin-e17af98427da
+    // Koin - service locator pattern,
+    // Dagger-Hilt (Hilt = boilerplate wrapper for Dagger) - Dependency injection pattern
+    // DI
+    // https://insert-koin.io/docs/quickstart/android-compose/
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+
+    // Dagger hilt
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    // https://dagger.dev/dev-guide/ksp.html
+    ksp("com.google.dagger:dagger-compiler:$hiltVersion")
+    ksp("com.google.dagger:hilt-compiler:$hiltVersion")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")

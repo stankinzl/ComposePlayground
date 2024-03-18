@@ -3,12 +3,6 @@ package com.stanislavkinzl.composeplayground.screens.navigation
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandHorizontally
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkHorizontally
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,8 +23,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -62,7 +54,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.stanislavkinzl.composeplayground.Global.mediumGap
 import com.stanislavkinzl.composeplayground.Global.smallGap
+import com.stanislavkinzl.composeplayground.R
 import com.stanislavkinzl.composeplayground.clearFocusOnKeyboardDismiss
+import com.stanislavkinzl.composeplayground.data.PlaygroundCat
 import com.stanislavkinzl.composeplayground.newBringIntoViewRequesterModifier
 import com.stanislavkinzl.composeplayground.ui.DefaultScrollableColumn
 import com.stanislavkinzl.composeplayground.ui.DefaultSurface
@@ -75,8 +69,10 @@ import com.stanislavkinzl.composeplayground.ui.composables.PhotoSelectorView
 import com.stanislavkinzl.composeplayground.ui.composables.SimpleAlertDialog
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 // TODO: Deal with https://stackoverflow.com/questions/5423571/prevent-activity-stack-from-being-restored
 /**
@@ -96,7 +92,8 @@ import kotlinx.coroutines.flow.onEach
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NavigationSamplePassArgumentsScreen(
-    viewModel: NavigationSamplePassArgumentsScreenVM = hiltViewModel()
+    viewModel: NavigationSamplePassArgumentsScreenVM = hiltViewModel(),
+    onNavigateToCat: (PlaygroundCat) -> Unit
 ) {
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
@@ -246,6 +243,7 @@ fun NavigationSamplePassArgumentsScreen(
             })
             SpacerVertical(height = smallGap)
             // https://stackoverflow.com/questions/68166660/jetpack-compose-alternative-to-view-systems-animatelayoutchanges
+            // https://developer.android.com/jetpack/compose/animation/introduction#animatedcontent
             AnimatedVisibility(visible = selectedImage != null) {
                 ImageLayoutView(
                     selectedImages = listOf(selectedImage),
@@ -268,6 +266,7 @@ fun NavigationSamplePassArgumentsScreen(
             SpacerVertical(height = 80.dp)
         }
     }
+
     // region ImePushUp button
     ImePushBox {
         HorizontalDivider()
@@ -275,7 +274,16 @@ fun NavigationSamplePassArgumentsScreen(
             text = "Continue",
             enabled = isContinueButtonEnabled,
             onClick = {
-                Toast.makeText(context, "Works", Toast.LENGTH_SHORT).show()
+                scope.launch {
+                    viewModel.catInfo.firstOrNull()?.let {
+                        onNavigateToCat.invoke(it)
+                    } ?: run {
+                        Toast.makeText(
+                            context,
+                            context.resources.getString(R.string.something_went_wrong), Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             },
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -297,6 +305,7 @@ fun NavigationSamplePassArgumentsScreen(
             icon = Icons.Default.Clear
         )
     }
+
     /*
         fun openSheet() {
             val cat = PlaygroundCat(
@@ -332,6 +341,6 @@ fun NavigationSamplePassArgumentsScreen(
 @Composable
 fun NavigationSamplePassArgumentsScreenPreview() {
     ComposePlaygroundTheme {
-        NavigationSamplePassArgumentsScreen()
+        NavigationSamplePassArgumentsScreen(onNavigateToCat = {})
     }
 }

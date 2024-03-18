@@ -32,10 +32,11 @@ fun SpacerHorizontal(width: Dp) {
 }
 
 @Composable
-fun DefaultSurface(content: @Composable () -> Unit) {
+fun DefaultSurface(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize()
-            .safeContentPadding(),
+            .safeContentPadding()
+            .then(modifier),
         color = MaterialTheme.colorScheme.background,
         content = content
     )

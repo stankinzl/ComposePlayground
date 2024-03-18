@@ -6,12 +6,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.stanislavkinzl.composeplayground.Global
 import com.stanislavkinzl.composeplayground.getActivity
+import com.stanislavkinzl.composeplayground.screens.destinations.NativeComposeNavigationSampleDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.ScrollingScreenDestination
 import com.stanislavkinzl.composeplayground.screens.xmlnavigationsample.XmlNavigationComponentActivity
 import com.stanislavkinzl.composeplayground.toast
@@ -20,6 +22,7 @@ import com.stanislavkinzl.composeplayground.ui.DefaultSurface
 import com.stanislavkinzl.composeplayground.ui.SpacerVertical
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 import com.stanislavkinzl.composeplayground.ui.theme.DarkGreen
+import com.stanislavkinzl.composeplayground.ui.theme.PrettyGreen
 
 @Destination(start = true)
 @Composable
@@ -30,7 +33,7 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
         DefaultScrollableColumn(scrollState = scrollState) {
             // Screen where I test scrolling
             Button({
-                navigator?.navigate(ScrollingScreenDestination)
+                navigator?.navigate(ScrollingScreenDestination, onlyIfResumed = true)
             }) { Text("Scrolling screen") }
 
             // XML navigation sample
@@ -41,6 +44,13 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
             }) { Text("XML Navigation Component w Compose sample") }
 
             // Native Compose navigation sample
+            SpacerVertical(height = Global.smallGap)
+            Button(colors = ButtonDefaults.buttonColors(
+                containerColor = PrettyGreen,
+                contentColor = Color.Black
+            ), onClick = {
+                navigator?.navigate(NativeComposeNavigationSampleDestination, onlyIfResumed = true)
+            }) { Text("Native Compose navigation Sample") }
             // TODO
 
             // ConstraintLayout in compose playground

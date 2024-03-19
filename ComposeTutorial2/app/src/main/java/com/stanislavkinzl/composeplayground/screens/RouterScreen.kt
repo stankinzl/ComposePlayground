@@ -1,25 +1,29 @@
 package com.stanislavkinzl.composeplayground.screens
 
 import android.content.Intent
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.stanislavkinzl.composeplayground.Global
 import com.stanislavkinzl.composeplayground.getActivity
+import com.stanislavkinzl.composeplayground.screens.destinations.DirectionDestination
+import com.stanislavkinzl.composeplayground.screens.destinations.KoinSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.NativeComposeNavigationSampleDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.ScrollingScreenDestination
 import com.stanislavkinzl.composeplayground.screens.xmlnavigationsample.XmlNavigationComponentActivity
 import com.stanislavkinzl.composeplayground.toast
-import com.stanislavkinzl.composeplayground.ui.DefaultScrollableColumn
 import com.stanislavkinzl.composeplayground.ui.DefaultSurface
-import com.stanislavkinzl.composeplayground.ui.SpacerVertical
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 import com.stanislavkinzl.composeplayground.ui.theme.DarkGreen
 import com.stanislavkinzl.composeplayground.ui.theme.PrettyGreen
@@ -27,35 +31,60 @@ import com.stanislavkinzl.composeplayground.ui.theme.PrettyGreen
 @Destination(start = true)
 @Composable
 fun RouterScreen(navigator: DestinationsNavigator? = null) {
-    val scrollState = rememberScrollState()
     val context = LocalContext.current
+
+    @Composable
+    fun RouterButton(
+        destination: DirectionDestination,
+        text: String,
+        containerColor: Color = MaterialTheme.colorScheme.primary,
+        contentColor: Color = MaterialTheme.colorScheme.onPrimary
+    ) {
+        Button(colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ), onClick = {
+            navigator?.navigate(destination, onlyIfResumed = true)
+        }) {
+            Text(text)
+        }
+    }
+
     DefaultSurface {
-        DefaultScrollableColumn(scrollState = scrollState) {
-            // Screen where I test scrolling
-            Button({
-                navigator?.navigate(ScrollingScreenDestination, onlyIfResumed = true)
-            }) { Text("Scrolling screen") }
+        LazyColumn(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 0.dp),
+            contentPadding = PaddingValues(horizontal = 0.dp, vertical = 16.dp)
+        ) {
+            item {
+                RouterButton(ScrollingScreenDestination, "Scrolling screen")
+            }
 
-            // XML navigation sample
-            SpacerVertical(height = Global.smallGap)
-            Button(colors = ButtonDefaults.buttonColors(containerColor = DarkGreen), onClick = {
-                context.getActivity()?.startActivity(Intent(context, XmlNavigationComponentActivity::class.java))
-                    ?: run { context.toast("Error: cannot get activity from context") /* Shouldn't happen */ }
-            }) { Text("XML Navigation Component w Compose sample") }
+            item {
+                Button(colors = ButtonDefaults.buttonColors(containerColor = DarkGreen), onClick = {
+                    context.getActivity()?.startActivity(Intent(context, XmlNavigationComponentActivity::class.java))
+                        ?: run { context.toast("Error: cannot get activity from context") /* Shouldn't happen */ }
+                }) {
+                    Text("XML Navigation Component w Compose sample")
+                }
+            }
 
-            // Native Compose navigation sample
-            SpacerVertical(height = Global.smallGap)
-            Button(colors = ButtonDefaults.buttonColors(
-                containerColor = PrettyGreen,
-                contentColor = Color.Black
-            ), onClick = {
-                navigator?.navigate(NativeComposeNavigationSampleDestination, onlyIfResumed = true)
-            }) { Text("Native Compose navigation Sample") }
-            // TODO
+            item {
+                RouterButton(
+                    NativeComposeNavigationSampleDestination,
+                    "Native Compose navigation Sample",
+                    contentColor = Color.Black,
+                    containerColor = PrettyGreen
+                )
+            }
 
-            // ConstraintLayout in compose playground
-            // TODO
-
+            item {
+                RouterButton(
+                    KoinSampleScreenDestination,
+                    "Koin Sample Screen",
+                    containerColor = Color.Yellow,
+                    contentColor = Color.Black
+                )
+            }
         }
     }
 }

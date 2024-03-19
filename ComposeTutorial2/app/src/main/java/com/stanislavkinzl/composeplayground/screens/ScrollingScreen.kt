@@ -1,29 +1,31 @@
 package com.stanislavkinzl.composeplayground.screens
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.animateScrollBy
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -32,16 +34,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.stanislavkinzl.composeplayground.Global
+import com.stanislavkinzl.composeplayground.fillWidthOfParent
 import com.stanislavkinzl.composeplayground.log
-import com.stanislavkinzl.composeplayground.ui.DefaultScrollableColumn
 import com.stanislavkinzl.composeplayground.ui.DefaultSurface
-import com.stanislavkinzl.composeplayground.ui.SpacerVertical
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
+import com.stanislavkinzl.composeplayground.ui.theme.DarkGreen
 import kotlinx.coroutines.launch
 
 const val DEFAULT_ANIMATED_SCROLL_DP = 100
@@ -51,31 +54,69 @@ const val DEFAULT_ANIMATED_SCROLL_INCREMENT_DP = 100
 // Lazy layouts https://www.youtube.com/watch?v=1ANt65eoNhQ&t=896s
 /**
  * Flow Row
-* */
+ * */
 @Destination
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ScrollingScreen() {
     val scope = rememberCoroutineScope()
     var smoothScrollValue by rememberSaveable { mutableIntStateOf(100) }
-    var counter by rememberSaveable { mutableIntStateOf(0) }
+    val counter by rememberSaveable { mutableIntStateOf(0) }
     val columnState = rememberLazyListState()
+
+    val originalStatusBarColor = MaterialTheme.colorScheme.primary
+    val secondStickyHeaderColor = DarkGreen
+    val useDarkIcons = isSystemInDarkTheme()
+    @Suppress("DEPRECATION")
+    val systemUiController = rememberSystemUiController()
+
+    val statusBarColor = remember {
+        derivedStateOf {
+            val greenStickyHeader= columnState.layoutInfo.visibleItemsInfo.firstOrNull {
+                it.key == "second_sticky_header"
+            }
+            if (greenStickyHeader== null || columnState.firstVisibleItemIndex < greenStickyHeader.index) {
+                originalStatusBarColor
+            } else {
+                secondStickyHeaderColor
+            }
+        }
+    }
+
+    systemUiController.setStatusBarColor(statusBarColor.value, darkIcons = useDarkIcons)
+
+    @Composable
+    fun StickyHeader(text: String, backgroundColor: Color) {
+        Column(
+            modifier = Modifier
+                .fillWidthOfParent(16.dp)
+                .background(backgroundColor),
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                text = text,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+        }
+    }
 
     DefaultSurface {
         LazyColumn(
             state = columnState,
+            contentPadding = PaddingValues(horizontal = 16.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .safeContentPadding()
-                .padding(16.dp)
         ) {
             item { Text("Smooth Scroll value: $smoothScrollValue", fontSize = 12.sp) }
-            item { SpacerVertical(height = Global.mediumGap) }
             // buttons
             item {
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(0.dp)
                 ) {
 
                     // Smooth Scroll Button
@@ -112,22 +153,30 @@ fun ScrollingScreen() {
                     }
                 }
             }
-            item { SpacerVertical(height = Global.mediumGap) }
-            item {
-                Row {
-                    Text("Enter scroll to child (up to 200):", fontSize = 12.sp)
-                    // TODO: add functionality
+            /*            item {
+                            Row {
+                                Text("Enter scroll to child (up to 200):", fontSize = 12.sp)
+                                // TODO: add functionality
+                            }
+                        }
+                        item { Text(text = "Counter: $counter") }
+                        item {
+                            ElevatedButton(onClick = { counter++ }) {
+                                Text("Increment")
+                            }
+                        }*/
+            stickyHeader {
+                StickyHeader("STICKY HEADER", MaterialTheme.colorScheme.primary)
+            }
+            (0..10).forEach {
+                item {
+                    Text("Line $it")
                 }
             }
-            item { SpacerVertical(height = Global.mediumGap) }
-            item { Text(text = "Counter: $counter") }
-            item {
-                ElevatedButton(onClick = { counter++ }, modifier = Modifier.padding(top = 16.dp)) {
-                    Text("Increment")
-                }
+            stickyHeader(key = "second_sticky_header") {
+                StickyHeader("STICKY HEADER 2", DarkGreen)
             }
-            item { SpacerVertical(height = Global.mediumGap) }
-            (0..200).forEach {
+            (11..70).forEach {
                 item {
                     Text("Line $it")
                 }
@@ -136,6 +185,15 @@ fun ScrollingScreen() {
 
         SideEffect {
             log("Button counter is $counter")
+        }
+
+        DisposableEffect(Unit) {
+            onDispose {
+                systemUiController.setStatusBarColor(
+                    color = originalStatusBarColor,
+                    darkIcons = useDarkIcons
+                )
+            }
         }
     }
 }

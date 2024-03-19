@@ -83,6 +83,10 @@ dependencies {
     // Image loading library backed by kotlin coroutines
     implementation("io.coil-kt:coil-compose:2.6.0") // https://coil-kt.github.io/coil/compose/
 
+    // https://google.github.io/accompanist/systemuicontroller/
+    // https://search.maven.org/search?q=g:com.google.accompanist
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
+
     // Dagger-Hilt vs Koin:
     // https://medium.com/@aruncse2k20/dagger-hilt-vs-koin-e17af98427da
     // Koin - service locator pattern,

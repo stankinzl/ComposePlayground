@@ -95,6 +95,17 @@ dependencies {
     // https://insert-koin.io/docs/quickstart/android-compose/
     implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 
+
+    //Network
+    // Retrofit vs Ktor https://medium.com/@ttdevelopment/retrofit-vs-ktor-for-android-development-a-surface-level-comparison-a354b236920b
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.moshi:moshi-adapters:1.13.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
+
     // Dagger hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")

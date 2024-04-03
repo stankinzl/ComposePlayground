@@ -19,13 +19,19 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.stanislavkinzl.composeplayground.getActivity
 import com.stanislavkinzl.composeplayground.screens.destinations.DirectionDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.KoinSampleScreenDestination
+import com.stanislavkinzl.composeplayground.screens.destinations.KtorRealmCatSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.NativeComposeNavigationSampleDestination
+import com.stanislavkinzl.composeplayground.screens.destinations.RetrofitRoomCatSampleScreenDestination
+import com.stanislavkinzl.composeplayground.screens.destinations.SQLiteSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.ScrollingScreenDestination
+import com.stanislavkinzl.composeplayground.screens.networkanddb.SQLiteSampleScreen
 import com.stanislavkinzl.composeplayground.screens.xmlnavigationsample.XmlNavigationComponentActivity
 import com.stanislavkinzl.composeplayground.toast
 import com.stanislavkinzl.composeplayground.ui.DefaultSurface
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 import com.stanislavkinzl.composeplayground.ui.theme.DarkGreen
+import com.stanislavkinzl.composeplayground.ui.theme.LightBlue
+import com.stanislavkinzl.composeplayground.ui.theme.Orange
 import com.stanislavkinzl.composeplayground.ui.theme.PrettyGreen
 
 @Destination(start = true)
@@ -58,7 +64,6 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
             item {
                 RouterButton(ScrollingScreenDestination, "Scrolling screen")
             }
-
             item {
                 Button(colors = ButtonDefaults.buttonColors(containerColor = DarkGreen), onClick = {
                     context.getActivity()?.startActivity(Intent(context, XmlNavigationComponentActivity::class.java))
@@ -67,7 +72,6 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
                     Text("XML Navigation Component w Compose sample")
                 }
             }
-
             item {
                 RouterButton(
                     NativeComposeNavigationSampleDestination,
@@ -76,13 +80,35 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
                     containerColor = PrettyGreen
                 )
             }
-
             item {
                 RouterButton(
                     KoinSampleScreenDestination,
                     "Koin Sample Screen",
                     containerColor = Color.Yellow,
                     contentColor = Color.Black
+                )
+            }
+            item {
+                RouterButton(
+                    RetrofitRoomCatSampleScreenDestination,
+                    "Retrofit & Room sample",
+                    containerColor = Orange,
+                    contentColor = Color.Black
+                )
+            }
+            item {
+                RouterButton(
+                    KtorRealmCatSampleScreenDestination,
+                    "Ktor & Realm sample",
+                    containerColor = LightBlue,
+                    contentColor = Color.Blue
+                )
+            }
+            item {
+                RouterButton(
+                    SQLiteSampleScreenDestination,
+                    "SQLite sample",
+                    containerColor = Color.Blue
                 )
             }
         }

@@ -5,9 +5,13 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.serialization")
+    kotlin("kapt")
 }
 
 android {
+    buildFeatures.buildConfig = true
+
     namespace = "com.stanislavkinzl.composeplayground"
     compileSdk = 34
 
@@ -22,6 +26,15 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+
+        buildConfigField("String", "API_BASE_URL", project.properties["BASE_URL_ALL_ENV"].toString())
+        buildConfigField("String", "CAT_API_KEY", project.properties["CAT_API_KEY"].toString())
     }
 
     buildTypes {
@@ -105,6 +118,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.moshi:moshi-adapters:1.13.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
+//    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
     // Dagger hilt
     implementation("com.google.dagger:hilt-android:$hiltVersion")
@@ -112,6 +126,21 @@ dependencies {
     // https://dagger.dev/dev-guide/ksp.html
     ksp("com.google.dagger:dagger-compiler:$hiltVersion")
     ksp("com.google.dagger:hilt-compiler:$hiltVersion")
+
+    // Room
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-guava:$roomVersion")
+    // TODO: Don't need autobindings atm, but might be useful
+
+//    val autobindingsVersion = "1.1-beta05"
+//    implementation("io.github.kaustubhpatange:autobindings-room:$autobindingsVersion") // Type converter annotations
+//    kapt("io.github.kaustubhpatange:autobindings-compiler:$autobindingsVersion")
+//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+
+    implementation("com.jakewharton.timber:timber:5.0.1")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")

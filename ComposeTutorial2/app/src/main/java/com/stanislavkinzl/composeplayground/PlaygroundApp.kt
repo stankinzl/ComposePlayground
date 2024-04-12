@@ -14,6 +14,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
+import timber.log.Timber
 
 @HiltAndroidApp
 class PlaygroundApp : Application() {
@@ -28,6 +29,11 @@ class PlaygroundApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
         startKoin {
             androidLogger()
             androidContext(this@PlaygroundApp)

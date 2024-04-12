@@ -15,21 +15,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.stanislavkinzl.composeplayground.getActivity
 import com.stanislavkinzl.composeplayground.screens.destinations.DirectionDestination
+import com.stanislavkinzl.composeplayground.screens.destinations.FlowOperatorsSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.KoinSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.KtorRealmCatSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.NativeComposeNavigationSampleDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.RetrofitRoomCatSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.SQLiteSampleScreenDestination
 import com.stanislavkinzl.composeplayground.screens.destinations.ScrollingScreenDestination
-import com.stanislavkinzl.composeplayground.screens.networkanddb.SQLiteSampleScreen
 import com.stanislavkinzl.composeplayground.screens.xmlnavigationsample.XmlNavigationComponentActivity
 import com.stanislavkinzl.composeplayground.toast
 import com.stanislavkinzl.composeplayground.ui.DefaultSurface
 import com.stanislavkinzl.composeplayground.ui.theme.ComposePlaygroundTheme
 import com.stanislavkinzl.composeplayground.ui.theme.DarkGreen
+import com.stanislavkinzl.composeplayground.ui.theme.DarkPurple
 import com.stanislavkinzl.composeplayground.ui.theme.LightBlue
 import com.stanislavkinzl.composeplayground.ui.theme.Orange
 import com.stanislavkinzl.composeplayground.ui.theme.PrettyGreen
@@ -91,7 +93,7 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
             item {
                 RouterButton(
                     RetrofitRoomCatSampleScreenDestination,
-                    "Retrofit & Room sample",
+                    "Retrofit & Room sample (WiP)",
                     containerColor = Orange,
                     contentColor = Color.Black
                 )
@@ -99,7 +101,7 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
             item {
                 RouterButton(
                     KtorRealmCatSampleScreenDestination,
-                    "Ktor & Realm sample",
+                    "Ktor & Realm sample (WiP)",
                     containerColor = LightBlue,
                     contentColor = Color.Blue
                 )
@@ -109,6 +111,13 @@ fun RouterScreen(navigator: DestinationsNavigator? = null) {
                     SQLiteSampleScreenDestination,
                     "SQLite sample",
                     containerColor = Color.Blue
+                )
+            }
+            item {
+                RouterButton(
+                    FlowOperatorsSampleScreenDestination,
+                    "Flow operators sample (WiP)",
+                    containerColor = DarkPurple
                 )
             }
         }

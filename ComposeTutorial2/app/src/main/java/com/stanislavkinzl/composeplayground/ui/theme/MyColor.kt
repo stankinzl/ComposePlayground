@@ -16,6 +16,7 @@ val DarkGreen = Color(0xFF0D6623)
 val Orange = Color(0xFFE68D51)
 val LightBlue = Color(0xFF89FCCD)
 val PrettyGreen = Color(0xFF18D848)
+val DarkPurple = Color(0xFF940E92)
 
 val BackgroundDark = Color(0xFF1B1C1F)
 val BackgroundLight = Color(0xFFE9D5E5)

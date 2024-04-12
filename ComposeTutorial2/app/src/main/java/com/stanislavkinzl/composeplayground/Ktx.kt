@@ -99,3 +99,11 @@ fun Modifier.fillWidthOfParent(parentPadding: Dp) = this.then(
         }
     },
 )
+
+fun Any?.isNullOrEmptyList(): Boolean {
+    return this == null || isEmptyList()
+}
+
+fun Any.isEmptyList(): Boolean {
+    return this is List<*> && isEmpty()
+}

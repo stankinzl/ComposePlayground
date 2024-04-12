@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +21,6 @@ fun PlaygroundCatContent(cat: PlaygroundCat) {
     Column(
         modifier = Modifier
             .heightIn(min = 100.dp, max = 500.dp)
-            .safeContentPadding()
             .padding(16.dp)
     ) {
         AsyncImage(

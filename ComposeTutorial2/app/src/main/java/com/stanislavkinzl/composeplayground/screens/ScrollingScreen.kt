@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
@@ -70,10 +69,12 @@ fun ScrollingScreen() {
     @Suppress("DEPRECATION")
     val systemUiController = rememberSystemUiController()
 
+    val secondStickyHeaderItemName = "second_sticky_header"
+
     val statusBarColor = remember {
         derivedStateOf {
             val greenStickyHeader= columnState.layoutInfo.visibleItemsInfo.firstOrNull {
-                it.key == "second_sticky_header"
+                it.key == secondStickyHeaderItemName
             }
             if (greenStickyHeader== null || columnState.firstVisibleItemIndex < greenStickyHeader.index) {
                 originalStatusBarColor
@@ -103,13 +104,11 @@ fun ScrollingScreen() {
         }
     }
 
-    DefaultSurface {
+    DefaultSurface(modifier = Modifier.background(Color.Blue)) {
         LazyColumn(
             state = columnState,
             contentPadding = PaddingValues(horizontal = 16.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .safeContentPadding()
+            modifier = Modifier.fillMaxSize().background(Color.Green)
         ) {
             item { Text("Smooth Scroll value: $smoothScrollValue", fontSize = 12.sp) }
             // buttons
@@ -173,7 +172,7 @@ fun ScrollingScreen() {
                     Text("Line $it")
                 }
             }
-            stickyHeader(key = "second_sticky_header") {
+            stickyHeader(key = secondStickyHeaderItemName) {
                 StickyHeader("STICKY HEADER 2", DarkGreen)
             }
             (11..70).forEach {

@@ -8,13 +8,13 @@ import com.stanislavkinzl.composeplayground.isNullOrEmptyList
 sealed class Resource<T>(
     open val data: T? = null,
     open val message: String? = null,
-    open val exception: Exception? = null
+    open val exception: Throwable? = null
 ) {
     class Success<T>(data: T) : Resource<T>(data)
     class Loading<T>(data: T? = null) : Resource<T>(data)
     data class Error<T>(
         override val message: String? = null,
-        override val exception: Exception? = null,
+        override val exception: Throwable? = null,
         override val data: T? = null,
         val errorType: APIErrorType
     ) : Resource<T>(data, message, exception)

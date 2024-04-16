@@ -4,9 +4,12 @@ import com.stanislavkinzl.composeplayground.common.APIErrorType
 import com.stanislavkinzl.composeplayground.common.Resource
 import com.stanislavkinzl.composeplayground.isNullOrEmptyList
 import com.stanislavkinzl.composeplayground.network.helpers.NetworkMonitor
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 
@@ -21,11 +24,10 @@ fun <D, R> apiFlow(
     successMappingOperation: suspend (R) -> D,
     initialData: (suspend () -> D?)? = null, // Either returns Error with starting data of APIErrorType.NotConnected
     withMappedData: (suspend (D) -> Unit)? = null
-): Flow<Resource<D>> = flow {
+): Flow<Resource<D>> {
     var startingData: D? = null
-    try {
+    return flow<Resource<D>> {
         startingData = initialData?.invoke()
-
         if (networkMonitor.isConnected.firstOrNull() != true) {
             emit(
                 Resource.Error(
@@ -36,7 +38,6 @@ fun <D, R> apiFlow(
             )
             return@flow // Not connected. Return.
         }
-
         startingData?.let {
             if (it is List<*> && it.isNullOrEmptyList()) {
                 emit(Resource.Loading(data = null))
@@ -46,14 +47,11 @@ fun <D, R> apiFlow(
         } ?: run {
             emit(Resource.Loading())
         }
-
         val response = apiOperation.invoke()
-
-        // mapping
         val successData = successMappingOperation.invoke(response)
         withMappedData?.invoke(successData)
         emit(Resource.Success(successData))
-    } catch (e: Exception) {
+    }.catch { e ->
         e.printStackTrace()
         emit(
             Resource.Error(
@@ -67,5 +65,5 @@ fun <D, R> apiFlow(
                 }
             )
         )
-    }
+    }.flowOn(Dispatchers.IO)
 }

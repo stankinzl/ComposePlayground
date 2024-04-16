@@ -22,7 +22,6 @@ class CatsRepository @Inject constructor(
         val databaseCats = networkCatsDao.getAll()
         val downloadedPages = (databaseCats?.size ?: 0).floorDiv(DEFAULT_CAT_REQUEST_LIMIT_20)
         val nextPage = downloadedPages + 1
-        Timber.e("xxx nextPage is $nextPage")
         return apiFlow(
             networkMonitor = networkMonitor,
             initialData = { networkCatsDao.getAll() },
